@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="EAnnotation:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="EAnnotation-web.war">
+      <element id="artifact" artifact-name="EAnnotation:war exploded" />
+    </root>
+  </artifact>
+</component>
