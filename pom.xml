@@ -12,7 +12,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>4.3.15.RELEASE</spring.version>
+        <hibernate.version>4.3.5.Final</hibernate.version>
         <junit.version>3.8.1</junit.version>
+        <mysql.version>6.0.6</mysql.version>
     </properties>
     <dependencies>
         <dependency>
@@ -43,8 +45,36 @@
             <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+    </dependencies>
   <build>
-    <finalName>EAnnotation-web</finalName>
+      <finalName>EAnnotation-web</finalName>
+      <resources>
+          <resource>
+              <directory>src/main/java</directory>
+              <includes>
+                  <include>**/*.xml</include>
+              </includes>
+              <filtering>true</filtering>
+          </resource>
+          <resource>
+              <directory>src/main/resources</directory>
+              <includes>
+                  <include>*.properties</include>
+              </includes>
+              <filtering>true</filtering>
+          </resource>
+      </resources>
   </build>
 </project>
