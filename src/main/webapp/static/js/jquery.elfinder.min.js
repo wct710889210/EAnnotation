@@ -1,5 +1,5 @@
 /*!
- * elFinder - file manager for web
+ * elFinder - file manager for controller
  * Version 2.0 rc1 (2012-04-10)
  * http://elfinder.org
  * 
