@@ -35,6 +35,7 @@
         <property name="mappingResources">
             <list>
                 <value>com/nightcats/data/AgeQuantity.hbm.xml</value>
+                <value>com/nightcats/data/Annotation.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -56,7 +57,12 @@
     </tx:advice>
 
     <aop:config>
-        <aop:pointcut id="AgeQuantityPointcut" expression="execution(* com.nightcats.service.*.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="AgeQuantityPointcut"/>
+        <aop:pointcut id="servicePointcut" expression="execution(* com.nightcats.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointcut"/>
+    </aop:config>
+
+    <aop:config>
+        <aop:pointcut id="daoPointcut" expression="execution(* com.nightcats.dao.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="daoPointcut"/>
     </aop:config>
 </beans>
