@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -51,31 +51,31 @@
             <div class="right"></div>
           </div>
         </div>
-            <!-- 工具栏标签 -->
-            <div class="toolbar tabbar-labels">
-                <div class="toolbar-inner">
-                    <a href="#" class="tab-link-active an-button link external">
-                        <!-- Different icons for iOS and MD themes -->
-                        <i class="icon f7-icons ios-only">book_fill</i>
-                        <span class="tabbar-label">作业</span>
-                    </a>
-                    <a href="course.html" class="tab-link an-button link external">
-                        <i class="icon f7-icons ios-only">layers_fill</i>
-                        <span class="tabbar-label active-state">课堂</span>
-                    </a>
-                    <a href="#" class="tab-link an-button link external">
-                        <i class="icon f7-icons ios-only">persons_fill</i>
-                        <span class="tabbar-label active-state">成员</span>
-                    </a>
-                    <a href="#" class="tab-link an-button">
-                        <i class="icon f7-icons ios-only">chat_fill
-                            <span class="badge color-red">5</span>
-                        </i>
-                        <span class="tabbar-label">消息</span>
-                    </a>
-                </div>
-            </div>
-        
+        <!-- 工具栏标签 -->
+        <div class="toolbar tabbar-labels">
+          <div class="toolbar-inner">
+            <a href="#" class="tab-link-active an-button link external">
+              <!-- Different icons for iOS and MD themes -->
+              <i class="icon f7-icons ios-only">book_fill</i>
+              <span class="tabbar-label">作业</span>
+            </a>
+            <a href="course.html" class="tab-link an-button link external">
+              <i class="icon f7-icons ios-only">layers_fill</i>
+              <span class="tabbar-label active-state">课堂</span>
+            </a>
+            <a href="#" class="tab-link an-button link external">
+              <i class="icon f7-icons ios-only">persons_fill</i>
+              <span class="tabbar-label active-state">成员</span>
+            </a>
+            <a href="#" class="tab-link an-button">
+              <i class="icon f7-icons ios-only">chat_fill
+                <span class="badge color-red">5</span>
+              </i>
+              <span class="tabbar-label">消息</span>
+            </a>
+          </div>
+        </div>
+
         <div class="toolbar toolbar-bottom-md fab-morph-target tabbar-labels">
           <div class="toolbar-inner">
             <a class="link popup-open external" data-popup=".popup-about" href="pub.html">发布作业</a>
@@ -158,7 +158,7 @@
               <li class="accordion-item">
                 <a href="#" class="item-content item-link">
                   <div class="item-inner">
-                    <div class="item-title">已截至的作业</div>
+                    <div class="item-title">已截止的作业</div>
                     <div class="item-after">
                       <span class="badge">3</span>
                     </div>
@@ -260,4 +260,4 @@
     <script src="js/annotate.js"></script>
   </body>
 
-</html>
+  </html>

@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -10,7 +10,7 @@
     <!-- Color theme for statusbar -->
     <meta name="theme-color" content="#000">
     <!-- Your app title -->
-    <title>批注系统</title>
+    <title>悦批</title>
     <!-- Path to Framework7 Library CSS -->
     <link rel="stylesheet" href="css/framework7.css">
     <link rel="stylesheet" href="css/framework7-icons.css">
@@ -92,10 +92,12 @@
 
         <div class="block block-strong annotator">
           <p>批注来源：
-            <label class="checkbox"><input type="checkbox" name="student" checked="checked">
+            <label class="checkbox">
+              <input type="checkbox" name="student" checked="checked">
               <i class="icon-checkbox"></i>
             </label> 学生
-            <label class="checkbox"><input type="checkbox" name="teacher" checked="checked">
+            <label class="checkbox">
+              <input type="checkbox" name="teacher" checked="checked">
               <i class="icon-checkbox"></i>
             </label> 教师</p>
         </div>
@@ -530,4 +532,4 @@
 
   </body>
 
-</html>
+  </html>

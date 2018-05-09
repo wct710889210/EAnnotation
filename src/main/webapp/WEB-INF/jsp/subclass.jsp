@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -116,7 +116,9 @@
                           <label href="#" class="item-content item-checkbox">
                             <div class="item-inner">
                               <div class="item-title-row">
-                                <div class="item-title"><a href="subanntator.html" class="link external" style="display: inline;"> 没有理由拒绝成为更好的自己</a></div>
+                                <div class="item-title">
+                                  <a href="subanntator.html" class="link external" style="display: inline;"> 没有理由拒绝成为更好的自己</a>
+                                </div>
                                 <div class="item-after">未打分</div>
                               </div>
                               <div class="item-subtitle">励志 · 1 天前</div>
@@ -303,4 +305,4 @@
       <script src="js/annotate.js"></script>
   </body>
 
-</html>
+  </html>

@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -85,8 +85,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -101,8 +101,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -117,8 +117,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -133,8 +133,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,014 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -148,8 +148,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -165,8 +165,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>2,514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -181,8 +181,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>6,054 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -197,8 +197,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,054 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
                   </ul>
@@ -223,8 +223,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -239,8 +239,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -255,8 +255,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -280,8 +280,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,014 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -295,8 +295,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -312,8 +312,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>2,514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -337,8 +337,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>6,054 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -353,8 +353,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,054 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
                   </ul>
@@ -369,8 +369,8 @@
                 <div class="list media-list index">
                   <ul class="index">
                     <div class="card demo-card-header-pic">
-                        <p class="triangle-topleft">1</p>
-                      
+                      <p class="triangle-topleft">1</p>
+
                       <div style="background-image:url(images/timg.jpg)" class="card-header align-items-flex-end">阿里年会马云演讲全文：可以失去一切，不能失去理想</div>
                       <div class="card-content card-content-padding">
                         <p class="date index">演讲 · 1 小时前</p>
@@ -381,16 +381,16 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
                     <div class="card">
-                        <span class="triangle-topleft"></span>
-                      
+                      <span class="triangle-topleft"></span>
+
                       <div class="card-header">没有理由拒绝成为更好的自己</div>
-                      
+
                       <div class="card-content card-content-padding">
                         <p class="date index">励志 · 40 分钟前</p>
                         <p>你会发现这么多年喜欢你的人还会喜欢，不喜欢你的人依旧是陌路。但自己所有的努力，只是为了成为更好的自己。别人的看法似乎没有那么重要了，至少更爱自己了，也变 ...
@@ -400,8 +400,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -417,8 +417,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>2,514 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -433,8 +433,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,014 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
 
@@ -449,8 +449,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>6,054 喜欢</a>
                         <a href="#" class="link">更多
-                        <i class="f7-icons size-18">bars</i>
-                      </a>
+                          <i class="f7-icons size-18">bars</i>
+                        </a>
                       </div>
                     </div>
                   </ul>
@@ -471,4 +471,4 @@
     <script src="js/annotate.js"></script>
   </body>
 
-</html>
+  </html>

@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+    <!DOCTYPE html>
+    <html>
 
     <head>
         <!-- Required meta tags-->
@@ -155,7 +155,8 @@
                                                     <label href="#" class="item-content item-checkbox">
                                                         <div class="item-inner">
                                                             <div class="item-title-row">
-                                                                <div class="item-title"><a href="ancourse.html" class="external link inline">阿里年会马云演讲全文：可以失去一切，不能失去理想</a>
+                                                                <div class="item-title">
+                                                                    <a href="ancourse.html" class="external link inline">阿里年会马云演讲全文：可以失去一切，不能失去理想</a>
                                                                 </div>
                                                                 <div class="item-after"></div>
                                                             </div>
@@ -251,7 +252,8 @@
                                                     <label href="#" class="item-content item-checkbox">
                                                         <div class="item-inner">
                                                             <div class="item-title-row">
-                                                                <div class="item-title"><a href="ancourse.html" class="external link inline">阿里年会马云演讲全文：可以失去一切，不能失去理想</a>
+                                                                <div class="item-title">
+                                                                    <a href="ancourse.html" class="external link inline">阿里年会马云演讲全文：可以失去一切，不能失去理想</a>
                                                                 </div>
                                                                 <div class="item-after"></div>
                                                             </div>
@@ -340,4 +342,4 @@
         <script src="js/annotate.js"></script>
     </body>
 
-</html>
+    </html>

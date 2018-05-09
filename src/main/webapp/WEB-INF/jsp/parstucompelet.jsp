@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -146,10 +146,12 @@
 
         <div class="block block-strong annotator">
           <p>批注来源：
-            <label class="checkbox"><input type="checkbox" name="student" checked="checked">
+            <label class="checkbox">
+              <input type="checkbox" name="student" checked="checked">
               <i class="icon-checkbox"></i>
             </label> 学生
-            <label class="checkbox"><input type="checkbox" name="teacher" checked="checked">
+            <label class="checkbox">
+              <input type="checkbox" name="teacher" checked="checked">
               <i class="icon-checkbox"></i>
             </label> 教师</p>
         </div>
@@ -257,7 +259,7 @@
         <div class="navbar">
           <div class="navbar-inner">
             <div class="left">
-              <a href="#" class="item-link icon" onclick="javascript :history.back(-1);">
+              <a href="subclass.html" class="item-link icon external">
                 <i class="icon f7-icons" style="font-size: 25px">chevron_left</i>
               </a>
             </div>
@@ -375,8 +377,7 @@
       document.addEventListener('touchstart', function () {
         $$('.badge').html('6');
       });
-
     </script>
   </body>
 
-</html>
+  </html>
