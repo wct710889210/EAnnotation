@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <!DOCTYPE html>
   <html>
 
@@ -528,6 +529,23 @@
           $$("[id=student]").css('display', 'block');
         }
       });
+
+      function annotate(paragraph, start, end) {
+          var px = $$("#box p")[paragraph - 1].firstChild;
+          console.log(px);
+          var range = document.createRange();
+          range.setStart(px, start);
+          range.setEnd(px, end);
+          range.select();
+          cssApplier = rangy.createClassApplier("Bton0Backgrond", false);
+          cssApplier.toggleSelection();
+          // window.getSelection().removeAllRanges();
+      }
+
+
+      <%--<c:forEach var="annotation" items="${annotations}">--%>
+        <%--annotate(${annotation.getParagraph()},${annotation.getStart()},${annotation.getEnd()});--%>
+      <%--</c:forEach>--%>
     </script>
 
   </body>
