@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -121,9 +121,9 @@
               <span class="tabbar-label">补充</span>
             </a>
             <a href="#" class="tab-link an-button open-confirm" id="button5">
-                <i class="icon f7-icons ios-only" style="color: #638BD4">check_round_fill </i>
-                <span class="tabbar-label">提交</span>
-              </a>
+              <i class="icon f7-icons ios-only" style="color: #638BD4">check_round_fill </i>
+              <span class="tabbar-label">提交</span>
+            </a>
           </div>
         </div>
         <!-- 内容区域 -->
@@ -334,7 +334,7 @@
         }
       });
     </script>
-  <script>
+    <script>
       $$('.open-confirm').on('click', function () {
         app.dialog.confirm('是否提交批注？', function () {
           setTimeout("window.location.href='course2.html'", 1000);
@@ -343,4 +343,4 @@
     </script>
   </body>
 
-</html>
+  </html>

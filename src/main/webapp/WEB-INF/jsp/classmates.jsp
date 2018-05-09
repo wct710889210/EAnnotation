@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -47,7 +47,11 @@
           <!-- Top Navbar -->
           <div class="navbar">
             <div class="navbar-inner">
-              <div class="left"></div>
+              <div class="left">
+                <a href="#" class="item-link icon" onclick="javascript :history.back(-1);">
+                  <i class="icon f7-icons" style="font-size: 25px">chevron_left</i>
+                </a>
+              </div>
               <div class="title">班级排名</div>
               <div class="right"></div>
             </div>
@@ -272,4 +276,4 @@
     <script src="js/annotate.js"></script>
   </body>
 
-</html>
+  </html>

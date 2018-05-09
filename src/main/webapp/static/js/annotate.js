@@ -22,7 +22,7 @@ function panel(m) {
     '<p  id="anPnode" class="p'+m+'">' + textarea + '</p>' +
     '</div >' +
     '<div class="card-footer">' +
-    '<a href="#" class="link popup-open" id="change" data-popup=".popup5" onclick="xiugai()">修改</a><a href="#" class="link" id="delete" onclick="del()">删除</a>' +
+    '<a class="link popup-open" id="change" data-popup=".popup5" onclick="xiugai()">修改</a><a  class="link" id="delete" onclick="del()">删除</a>' +
     '</div>' +
     '</div>');
   document.getElementById(string).value = '';
@@ -55,6 +55,8 @@ function getLocation() {
   alert(rangeObject.startOffset);
   alert(rangeObject.endOffset);
   alert(getString());
+  app.request.post('', rangeObject.startOffset,JSON);
+  app.request.post('', rangeObject.endOffset,JSON);
 }
 
 //添加批注样式
@@ -98,6 +100,7 @@ var button0 = document.getElementById("button0");
 button0.addEventListener('touchstart', function () {
   getString(0);
   anPaint(0);
+  getLocation();
 });
 
 var botton1 = document.getElementById("button1");

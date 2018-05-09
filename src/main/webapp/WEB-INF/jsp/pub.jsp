@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -68,17 +68,17 @@
               <li>
                 <div class="item-content item-input">
                   <div class="item-inner">
-                    <div class="item-title item-label">截至日期</div>
+                    <div class="item-title item-label">截止日期</div>
                     <div class="item-input-wrap">
-                      <input type="text" placeholder="选择截至日期" readonly="readonly" id="demo-calendar-modal" />
+                      <input type="text" placeholder="选择截止日期" readonly="readonly" id="demo-calendar-modal" />
                     </div>
                   </div>
                 </div>
               </li>
             </ul>
             <div class="item-media">
-                <i class="icon demo-list-icon"></i>
-              </div>
+              <i class="icon demo-list-icon"></i>
+            </div>
             <div class="title">选择主题</div>
             <div class="row margin-top-30">
               <div class="col">
@@ -268,4 +268,4 @@
       </script>
   </body>
 
-</html>
+  </html>

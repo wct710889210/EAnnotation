@@ -1,6 +1,6 @@
-<%@page contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"%>
+  <!DOCTYPE html>
+  <html>
 
   <head>
     <!-- Required meta tags-->
@@ -82,8 +82,10 @@
                       </a>
                       <div class="card-content card-content-padding">
                         <p class="date index">演讲 · 1 小时前</p>
-                        <p><a href="anntator.html" class="link external color-black">
-                        我们要感谢这个时代，感谢互联网，感谢中国，感谢所有的同事，包括那些曾经在阿里巴巴工作过哪怕半个小时的 ...</a></p>
+                        <p>
+                          <a href="anntator.html" class="link external color-black">
+                            我们要感谢这个时代，感谢互联网，感谢中国，感谢所有的同事，包括那些曾经在阿里巴巴工作过哪怕半个小时的 ...</a>
+                        </p>
                       </div>
 
                       <div class="card-footer">
@@ -106,8 +108,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -122,8 +124,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -147,8 +149,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,014 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -162,8 +164,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -179,8 +181,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>2,514 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -204,8 +206,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>6,054 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -220,8 +222,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,054 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
                   </ul>
@@ -240,8 +242,10 @@
                       </a>
                       <div class="card-content card-content-padding">
                         <p class="date index">演讲 · 1 小时前</p>
-                        <p><a href="anntator.html" class="link external color-black">
-                        我们要感谢这个时代，感谢互联网，感谢中国，感谢所有的同事，包括那些曾经在阿里巴巴工作过哪怕半个小时的 ...</a></p>
+                        <p>
+                          <a href="anntator.html" class="link external color-black">
+                            我们要感谢这个时代，感谢互联网，感谢中国，感谢所有的同事，包括那些曾经在阿里巴巴工作过哪怕半个小时的 ...</a>
+                        </p>
                       </div>
 
                       <div class="card-footer">
@@ -264,8 +268,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -280,8 +284,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -305,8 +309,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,014 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -320,8 +324,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,421 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -337,8 +341,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>2,514 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -362,8 +366,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>6,054 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
 
@@ -378,8 +382,8 @@
                         <a href="#" class="link">
                           <i class="f7-icons size-18">heart_fill</i>1,054 喜欢</a>
                         <a href="#" class="link">
-                            5,857人批注过，共计51,582条批注
-                          </a>
+                          5,857人批注过，共计51,582条批注
+                        </a>
                       </div>
                     </div>
                   </ul>
@@ -400,4 +404,4 @@
     <script src="js/annotate.js"></script>
   </body>
 
-</html>
+  </html>
