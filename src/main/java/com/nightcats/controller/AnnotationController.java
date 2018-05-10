@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -176,7 +175,7 @@ public class AnnotationController {
         int userId = Integer.parseInt(request.getParameter("userId"));
         int passageId = Integer.parseInt(request.getParameter("passageId"));
         int start = Integer.parseInt(request.getParameter("start"));
-        int end = start + Integer.parseInt(request.getParameter("end"))-1;
+        int end = start + Integer.parseInt(request.getParameter("end"));
         String content = request.getParameter("content");
         int type = Integer.parseInt(request.getParameter("type"));
         String selected = request.getParameter("selected");

@@ -492,6 +492,24 @@
     <script src="js/rangy-classapplier.js"></script>
     <script src="js/annotate.js"></script>
     <script>
+        function annotate(paragraph, start, end) {
+            var px = $$("#box p")[paragraph - 1].firstChild;
+            console.log(px);
+            var range = rangy.createRange();
+            range.setStart(px, start);
+            range.setEnd(px, end);
+            range.select();
+            cssApplier = rangy.createClassApplier("Bton0Backgrond", false);
+            cssApplier.toggleSelection();
+            window.getSelection().removeAllRanges();
+        }
+
+        window.onload = function () {
+            <c:forEach var="annotation" items="${annotations}">
+            annotate(${annotation.getParagraph()},${annotation.getStart()},${annotation.getEnd()});
+            </c:forEach>
+        }
+
       function del() {
         $$('.delete').html("我们要感谢这个时代，感谢互联网，感谢中国中国，感谢所有的同事，包括那些曾经在阿里巴巴工作过哪怕半个小时的人。");
         $$('.cd0').remove();
@@ -530,22 +548,6 @@
         }
       });
 
-      function annotate(paragraph, start, end) {
-          var px = $$("#box p")[paragraph - 1].firstChild;
-          console.log(px);
-          var range = document.createRange();
-          range.setStart(px, start);
-          range.setEnd(px, end);
-          range.select();
-          cssApplier = rangy.createClassApplier("Bton0Backgrond", false);
-          cssApplier.toggleSelection();
-          // window.getSelection().removeAllRanges();
-      }
-
-
-      <%--<c:forEach var="annotation" items="${annotations}">--%>
-        <%--annotate(${annotation.getParagraph()},${annotation.getStart()},${annotation.getEnd()});--%>
-      <%--</c:forEach>--%>
     </script>
 
   </body>
