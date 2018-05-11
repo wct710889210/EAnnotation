@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.nightcats.data.Passage" table="passage">
+        <id name="id" column="id" type="int">
+            <generator class="increment"/>
+        </id>
+        <property name="title" column="title" type="string" not-null="true"/>
+        <property name="content" column="content" type="string" not-null="true"/>
+        <property name="photo" column="photo" type="string" not-null="false"/>
+        <property name="endTime" column="end_time" type="date" not-null="true"/>
+        <property name="releaseTime" column="release_time" type="date" not-null="true"/>
+        <property name="theme" column="theme" type="string" not-null="true"/>
+    </class>
+</hibernate-mapping>
