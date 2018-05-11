@@ -1,6 +1,7 @@
 package com.nightcats.service;
 
 import com.nightcats.dao.AnnotationDao;
+import com.nightcats.dao.PassageDao;
 import com.nightcats.data.Annotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.List;
 public class FrontServiceImp implements FrontService{
     @Autowired
     private AnnotationDao annotationDao;
+    @Autowired
+    private PassageDao passageDao;
 
     @Override
     public void addAnnotation(int userID, int passageId, int start, int end, String content,int type, String selected, int paragraph) {

@@ -33,6 +33,14 @@ public class AnnotationController {
         return "anntator";
     }
 
+    @RequestMapping("getAnnotations")
+    @ResponseBody
+    public List<Annotation> getAnnotations(Model model){
+        List<Annotation> annotations = annotationDao.findAnnsBy2Id(1,1);
+        model.addAttribute("annotations",annotations);
+        return annotations;
+    }
+
     @RequestMapping("/anntatorweb")
     public String anntatorweb(){
         return "anntatorweb";
