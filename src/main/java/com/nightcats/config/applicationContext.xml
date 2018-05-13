@@ -18,6 +18,10 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+    <context:component-scan base-package="com.nightcats">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**" />
@@ -31,9 +35,11 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <context:component-scan base-package="com.nightcats">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="41943040"/>
+    </bean>
 
     <bean id="myDatabase" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
@@ -53,6 +59,8 @@
                 <value>com/nightcats/data/AgeQuantity.hbm.xml</value>
                 <value>com/nightcats/data/Annotation.hbm.xml</value>
                 <value>com/nightcats/data/Passage.hbm.xml</value>
+                <value>com/nightcats/data/User.hbm.xml</value>
+                <value>com/nightcats/data/Homework.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

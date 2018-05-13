@@ -1,8 +1,11 @@
 package com.nightcats.controller;
 
 import com.nightcats.dao.AnnotationDao;
+import com.nightcats.dao.HomeworkDao;
 import com.nightcats.dao.PassageDao;
+import com.nightcats.dao.UserDao;
 import com.nightcats.data.Annotation;
+import com.nightcats.data.Homework;
 import com.nightcats.data.Passage;
 import com.nightcats.service.FrontService;
 import net.sf.json.JSONArray;
@@ -11,8 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +37,10 @@ public class AnnotationController {
     private AnnotationDao annotationDao;
     @Autowired
     private PassageDao passageDao;
+    @Autowired
+    private HomeworkDao homeworkDao;
+    @Autowired
+    private UserDao userDao;
 
     //页面-->
     @RequestMapping("/ancourse")
@@ -40,13 +54,6 @@ public class AnnotationController {
         List<Annotation> annotations = annotationDao.findAnnsBy2Id(1,1);
         model.addAttribute("annotations",annotations);
         return "anntator";
-    }
-
-    @RequestMapping(value = "getAnnotations",produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public String getAnnotations(){
-        List<Annotation> annotations = annotationDao.findAnnsBy2Id(1,1);
-        return JSONArray.fromObject(annotations).toString();
     }
 
     @RequestMapping("/anntatorweb")
@@ -180,6 +187,14 @@ public class AnnotationController {
     }
     //<--页面
 
+    //接口-->
+    @RequestMapping(value = "getAnnotations",produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String getAnnotations(int passageId,int userId){
+        List<Annotation> annotations = annotationDao.findAnnsBy2Id(userId,passageId);
+        return JSONArray.fromObject(annotations).toString();
+    }
+
     @RequestMapping(value = "getPassage",produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getPassage(HttpServletRequest request){
@@ -228,6 +243,7 @@ public class AnnotationController {
             json.put("releaseTime",format.format(passage.getReleaseTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
+            json.put("teacherId",passage.getTeacherId());
             if(passage.getEndTime() != null){
                 json.put("endTime",passage.getEndTime().toString());
             }else{
@@ -265,12 +281,37 @@ public class AnnotationController {
                 e.printStackTrace();
             }
         }
-        System.out.println(releaseTime.toString());
-        System.out.println(endTime.toString());
         String auth = request.getParameter("auth");
         int classId = Integer.parseInt(request.getParameter("classId"));
         int type = Integer.parseInt(request.getParameter("type"));
-        frontService.addPassage(title,content,null,releaseTime,endTime,null,auth,classId,type);
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        String photo = null;
+
+        // 创建一个通用的多部分解析器.
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        // 设置编码
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        // 判断是否有文件上传
+        if (commonsMultipartResolver.isMultipart(request)) {//有文件上传
+            MultipartHttpServletRequest fileRequest = (MultipartHttpServletRequest)request;
+            MultipartFile file = fileRequest.getFile("image");
+            String path = request.getServletContext().getRealPath("static"+File.separator+"uploadFiles");
+            String fileName = file.getOriginalFilename();
+            File pFile = new File(path);
+            if(!pFile.exists()){
+                pFile.mkdirs();
+            }
+            String ultiPath = path+File.separator+frontService.generateRandomFilename()+fileName.substring(fileName.lastIndexOf(".")+1);
+            File ultiFile = new File(ultiPath);
+            try {
+                file.transferTo(ultiFile);
+                photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        frontService.addPassage(title,content,photo,releaseTime,endTime,null,auth,classId,type,teacherId);
         return "success";
     }
 
@@ -334,6 +375,77 @@ public class AnnotationController {
         annotationDao.update(annotation);
         return "success";
     }
+    //<--批注的增加删改查
 
-    //<--批注的怎删改查
+    @RequestMapping(value = "/getAllHomework",produces="text/json;charset=utf-8")
+    @ResponseBody
+    public String getAllHomework(@RequestParam("id")int StudentId){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        List<Homework> homeworks = homeworkDao.findByStudent(StudentId);
+        JSONArray jsonArray = new JSONArray();
+        for(Homework homework:homeworks){
+            JSONObject obj = new JSONObject();
+            obj.put("id",homework.getId());
+            obj.put("studentId",homework.getStudentId());
+            obj.put("teacherId",homework.getTeacherId());
+            obj.put("passageId",homework.getPassageId());
+            obj.put("finish",homework.isFinish());
+            obj.put("score",homework.getScore());
+            Passage passage = passageDao.findById(homework.getPassageId());
+            obj.put("passageTitle",passage.getTitle());
+            obj.put("passageContent",passage.getContent());
+            if(passage.getTheme()!=null){
+                obj.put("passageTheme",passage.getTheme());
+            }else{
+                obj.put("passageTheme","");
+            }
+            obj.put("endTime",passage.getEndTime().toString());
+            obj.put("releaseTime",format.format(passage.getReleaseTime()));
+            jsonArray.add(obj);
+        }
+        return jsonArray.toString();
+    }
+
+    @RequestMapping(value="/getStudentHomework",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getStudentHomework(int teacherId){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        List<Passage> passages = passageDao.findHomeByTeach(teacherId);
+        JSONArray jsonArray = new JSONArray();
+        for(Passage passage:passages){
+            JSONObject json = new JSONObject();
+            json.put("id",passage.getId());
+            json.put("title",passage.getTitle());
+            json.put("content",passage.getContent());
+            json.put("auth",passage.getAuth());
+            json.put("releaseTime",format.format(passage.getReleaseTime()));
+            json.put("classId",passage.getClassId());
+            json.put("type",passage.getType());
+            json.put("teacherId",passage.getTeacherId());
+            if(passage.getEndTime() != null){
+                json.put("endTime",passage.getEndTime().toString());
+            }else{
+                json.put("endTime","");
+            }
+            if(passage.getPhoto() != null){
+                json.put("photo",passage.getPhoto());
+            }else{
+                json.put("photo","");
+            }
+            if(passage.getTheme() != null){
+                json.put("theme",passage.getTheme());
+            }else{
+                json.put("theme","");
+            }
+            jsonArray.add(json);
+        }
+        return jsonArray.toString();
+    }
+
+    @RequestMapping("/setFinish")
+    @ResponseBody
+    public String setFinish(int studentId){
+
+        return "success";
+    }
 }
