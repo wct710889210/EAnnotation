@@ -13,6 +13,15 @@ public class Passage {
     private String auth;
     private int classId;
     private int type;
+    private int teacherId;
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
 
     public Date getReleaseTime() {
         return releaseTime;

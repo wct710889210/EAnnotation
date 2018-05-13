@@ -37,4 +37,9 @@ public class PassageDaoImp implements PassageDao{
     public List<Passage> findAll() {
         return sessionFactory.getCurrentSession().createQuery("From Passage").list();
     }
+
+    @Override
+    public List<Passage> findHomeByTeach(int teacherId) {
+        return sessionFactory.getCurrentSession().createQuery("from Passage where teacherId=? and type=0").setParameter(0,teacherId).list();
+    }
 }

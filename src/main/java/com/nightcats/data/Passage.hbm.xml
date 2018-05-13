@@ -16,5 +16,6 @@
         <property name="auth" column="auth" type="string" not-null="true"/>
         <property name="classId" column="class_id" type="int" not-null="true"/>
         <property name="type" column="type" type="int" not-null="true"/>
+        <property name="teacherId" column="teacher_id" type="int" not-null="true" />
     </class>
 </hibernate-mapping>

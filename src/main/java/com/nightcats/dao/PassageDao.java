@@ -10,4 +10,6 @@ public interface PassageDao {
     public void update(Passage passage);
     public Passage findById(int id);
     public List<Passage> findAll();
+
+    public List<Passage> findHomeByTeach(int teacherId);
 }
