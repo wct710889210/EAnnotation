@@ -1,10 +1,12 @@
 package com.nightcats.service;
 
-import com.nightcats.data.Annotation;
-
-import java.util.List;
+import java.util.Date;
 
 public interface FrontService {
-    public void addAnnotation(int userID,int passageId,int start,int end,String content,int type,String selected,int paragraph);
+    //批注
+    public void addAnnotation(int userId,int passageId,int start,int end,String content,int type,String selected,int paragraph);
+    public void updateAnnotation(int id,int userID,int passageId,int start,int end,String content,int type,String selected,int paragraph);
 
+    //文章
+    public void addPassage(String title, String content, String photo,Date releaseTime, Date endTime, String theme, String auth, int classId, int type);
 }

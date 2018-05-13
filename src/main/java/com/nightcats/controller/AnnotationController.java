@@ -1,16 +1,22 @@
 package com.nightcats.controller;
 
 import com.nightcats.dao.AnnotationDao;
+import com.nightcats.dao.PassageDao;
 import com.nightcats.data.Annotation;
+import com.nightcats.data.Passage;
 import com.nightcats.service.FrontService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,6 +25,8 @@ public class AnnotationController {
     private FrontService frontService;
     @Autowired
     private AnnotationDao annotationDao;
+    @Autowired
+    private PassageDao passageDao;
 
     //页面-->
     @RequestMapping("/ancourse")
@@ -26,6 +34,7 @@ public class AnnotationController {
         return "ancourse";
     }
 
+    //后期删除
     @RequestMapping("/anntator")
     public String anntator(Model model){
         List<Annotation> annotations = annotationDao.findAnnsBy2Id(1,1);
@@ -33,12 +42,11 @@ public class AnnotationController {
         return "anntator";
     }
 
-    @RequestMapping("getAnnotations")
+    @RequestMapping(value = "getAnnotations",produces = "application/json; charset=utf-8")
     @ResponseBody
-    public List<Annotation> getAnnotations(Model model){
+    public String getAnnotations(){
         List<Annotation> annotations = annotationDao.findAnnsBy2Id(1,1);
-        model.addAttribute("annotations",annotations);
-        return annotations;
+        return JSONArray.fromObject(annotations).toString();
     }
 
     @RequestMapping("/anntatorweb")
@@ -172,7 +180,102 @@ public class AnnotationController {
     }
     //<--页面
 
-    @RequestMapping("/addAnnotation")
+    @RequestMapping(value = "getPassage",produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String getPassage(HttpServletRequest request){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Passage passage = passageDao.findById(id);
+        JSONObject json = new JSONObject();
+        json.put("id",passage.getId());
+        json.put("title",passage.getTitle());
+        json.put("content",passage.getContent());
+        json.put("auth",passage.getAuth());
+        json.put("releaseTime",format.format(passage.getReleaseTime()));
+        json.put("classId",passage.getClassId());
+        json.put("type",passage.getType());
+        if(passage.getEndTime() != null){
+            json.put("endTime",passage.getEndTime().toString());
+        }else{
+            json.put("endTime","");
+        }
+        if(passage.getPhoto() != null){
+            json.put("photo",passage.getPhoto());
+        }else{
+            json.put("photo","");
+        }
+        if(passage.getTheme() != null){
+            json.put("theme",passage.getTheme());
+        }else{
+            json.put("theme","");
+        }
+        json.put("count",annotationDao.getCountByPass(passage.getId()));
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/getAllPassages",produces = "text/json; charset=utf-8")
+    @ResponseBody
+    public String getAllPassages(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        List<Passage> passages = passageDao.findAll();
+        JSONArray jsonArray = new JSONArray();
+        for(Passage passage:passages){
+            JSONObject json = new JSONObject();
+            json.put("id",passage.getId());
+            json.put("title",passage.getTitle());
+            json.put("content",passage.getContent());
+            json.put("auth",passage.getAuth());
+            json.put("releaseTime",format.format(passage.getReleaseTime()));
+            json.put("classId",passage.getClassId());
+            json.put("type",passage.getType());
+            if(passage.getEndTime() != null){
+                json.put("endTime",passage.getEndTime().toString());
+            }else{
+                json.put("endTime","");
+            }
+            if(passage.getPhoto() != null){
+                json.put("photo",passage.getPhoto());
+            }else{
+                json.put("photo","");
+            }
+            if(passage.getTheme() != null){
+                json.put("theme",passage.getTheme());
+            }else{
+                json.put("theme","");
+            }
+            jsonArray.add(json);
+        }
+        return jsonArray.toString();
+    }
+
+    @RequestMapping(value = "/addPassage")
+    @ResponseBody
+    public String addPassage(HttpServletRequest request){
+        String title = request.getParameter("title");
+        String content = request.getParameter("editorValue");
+        Date releaseTime = new Date(System.currentTimeMillis()+46800000);      //TODO 不知为何会少13小时
+        //若发生异常截止时间为当前时间
+        Date endTime = null;
+        if(request.getParameter("endTime")!= null) {
+            try {
+                String timeStr = request.getParameter("endTime");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                endTime = new Date(formatter.parse(timeStr).getTime() + 86400000);    //TODO 不知为何会少一天
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(releaseTime.toString());
+        System.out.println(endTime.toString());
+        String auth = request.getParameter("auth");
+        int classId = Integer.parseInt(request.getParameter("classId"));
+        int type = Integer.parseInt(request.getParameter("type"));
+        frontService.addPassage(title,content,null,releaseTime,endTime,null,auth,classId,type);
+        return "success";
+    }
+
+    //批注的怎删改查-->
+    @RequestMapping(value = "/addAnnotation")
     @ResponseBody
     public String addAnnotation(HttpServletRequest request){
         try {
@@ -189,7 +292,48 @@ public class AnnotationController {
         String selected = request.getParameter("selected");
         int paragraph = Integer.parseInt(request.getParameter("paragraph"));
         frontService.addAnnotation(userId,passageId,start,end,content,type,selected,paragraph);
+        return ""+annotationDao.getMaxId();
+    }
+
+    @RequestMapping("/deleteAnnotation")
+    @ResponseBody
+    public String deleteAnnotation(HttpServletRequest request){
+        int id = Integer.parseInt(request.getParameter("id"));
+        annotationDao.delete(id);
         return "success";
     }
 
+    @RequestMapping("updateAnnotation")
+    @ResponseBody
+    public String updateAnnotation(HttpServletRequest request){
+        try {
+            request.setCharacterEncoding("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        int id = Integer.parseInt(request.getParameter("id"));
+        Annotation annotation = annotationDao.findById(id);
+        if(request.getParameter("userId")!=null){
+            annotation.setUserId(Integer.parseInt(request.getParameter("userId")));
+        }
+        if(request.getParameter("passageId")!=null){
+            annotation.setPassageId(Integer.parseInt(request.getParameter("passageId")));
+        }
+        if(request.getParameter("content")!=null){
+            annotation.setContent(request.getParameter("content"));
+        }
+        if(request.getParameter("type")!=null){
+            annotation.setType(Integer.parseInt(request.getParameter("type")));
+        }
+        if(request.getParameter("selected")!=null){
+            annotation.setSelected(request.getParameter("selected"));
+        }
+        if(request.getParameter("paragraph")!=null){
+            annotation.setParagraph(Integer.parseInt(request.getParameter("paragraph")));
+        }
+        annotationDao.update(annotation);
+        return "success";
+    }
+
+    //<--批注的怎删改查
 }
