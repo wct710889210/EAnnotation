@@ -3,6 +3,7 @@ package com.nightcats.dao;
 import com.nightcats.data.Annotation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,5 +39,18 @@ public class AnnotationDaoImp implements AnnotationDao{
     public List<Annotation> findAnnsBy2Id(int userId, int passageId) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Annotation where userId=? AND passageId=? order by paragraph,start").setParameter(0,userId).setParameter(1,passageId).list();
+    }
+
+    @Override
+    public int getCountByPass(int passageId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Annotation where passageId = ?").setParameter(0,passageId);
+        return ((Number)query.uniqueResult()).intValue();
+    }
+
+    @Override
+    public int getMaxId() {
+        Session session = sessionFactory.getCurrentSession();
+        int maxId = ((Number)session.createQuery("select max(a.id) from Annotation a" ).uniqueResult()).intValue();
+        return maxId;
     }
 }

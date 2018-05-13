@@ -1,6 +1,6 @@
 package com.nightcats.data;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Passage {
     private int id;
@@ -10,6 +10,9 @@ public class Passage {
     private Date endTime;
     private Date releaseTime;
     private String theme;
+    private String auth;
+    private int classId;
+    private int type;
 
     public Date getReleaseTime() {
         return releaseTime;
@@ -17,6 +20,14 @@ public class Passage {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -65,5 +76,21 @@ public class Passage {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 }

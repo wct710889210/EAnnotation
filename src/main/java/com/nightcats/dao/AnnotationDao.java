@@ -11,4 +11,6 @@ public interface AnnotationDao {
     public Annotation findById(int id);
     //通过用户id和文章id获取所有批注
     public List<Annotation> findAnnsBy2Id(int userId, int passageId);
+    public int getCountByPass(int passwordId);
+    public int getMaxId();
 }
