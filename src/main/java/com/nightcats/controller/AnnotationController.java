@@ -231,7 +231,7 @@ public class AnnotationController {
     @RequestMapping(value = "/getAllPassages",produces = "text/json; charset=utf-8")
     @ResponseBody
     public String getAllPassages(){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Passage> passages = passageDao.findAll();
         JSONArray jsonArray = new JSONArray();
         for(Passage passage:passages){
@@ -240,7 +240,7 @@ public class AnnotationController {
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
             json.put("auth",passage.getAuth());
-            json.put("releaseTime",format.format(passage.getReleaseTime()));
+            json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
             json.put("teacherId",passage.getTeacherId());
@@ -269,7 +269,7 @@ public class AnnotationController {
     public String addPassage(HttpServletRequest request){
         String title = request.getParameter("title");
         String content = request.getParameter("editorValue");
-        Date releaseTime = new Date(System.currentTimeMillis()+46800000);      //TODO 不知为何会少13小时
+        Date releaseTime = new Date(System.currentTimeMillis());      //TODO 不知为何会少13小时
         //若发生异常截止时间为当前时间
         Date endTime = null;
         if(request.getParameter("endTime")!= null) {
@@ -285,6 +285,10 @@ public class AnnotationController {
         int classId = Integer.parseInt(request.getParameter("classId"));
         int type = Integer.parseInt(request.getParameter("type"));
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        String theme = null;
+        if(request.getParameter("theme") != null){
+            theme = request.getParameter("theme");
+        }
         String photo = null;
 
         // 创建一个通用的多部分解析器.
@@ -297,21 +301,22 @@ public class AnnotationController {
             MultipartFile file = fileRequest.getFile("image");
             String path = request.getServletContext().getRealPath("static"+File.separator+"uploadFiles");
             String fileName = file.getOriginalFilename();
-            File pFile = new File(path);
-            if(!pFile.exists()){
-                pFile.mkdirs();
+            if(!file.isEmpty()||fileName.equals("")){
+                File pFile = new File(path);
+                if(!pFile.exists()){
+                    pFile.mkdirs();
+                }
+                String ultiPath = path+File.separator+frontService.generateRandomFilename()+fileName.substring(fileName.lastIndexOf(".")+1);
+                File ultiFile = new File(ultiPath);
+                try {
+                    file.transferTo(ultiFile);
+                    photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            String ultiPath = path+File.separator+frontService.generateRandomFilename()+fileName.substring(fileName.lastIndexOf(".")+1);
-            File ultiFile = new File(ultiPath);
-            try {
-                file.transferTo(ultiFile);
-                photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
-        frontService.addPassage(title,content,photo,releaseTime,endTime,null,auth,classId,type,teacherId);
+        frontService.addPassage(title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
         return "success";
     }
 
