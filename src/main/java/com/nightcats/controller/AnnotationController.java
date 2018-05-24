@@ -188,10 +188,35 @@ public class AnnotationController {
     //<--页面
 
     //接口-->
+    //获取指定用户、文章的批注
     @RequestMapping(value = "getAnnotations",produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getAnnotations(int passageId,int userId){
         List<Annotation> annotations = annotationDao.findAnnsBy2Id(userId,passageId);
+        return JSONArray.fromObject(annotations).toString();
+    }
+
+    //文章的所有批注，按时间降序
+    @RequestMapping(value = "getAllAnnotations",produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String getAnnotations(int passageId){
+        List<Annotation> annotations = annotationDao.findAnnsByPass(passageId);
+        JSONArray jsonArray = new JSONArray();
+        for(Annotation annotation:annotations){
+            JSONObject json = new JSONObject();
+            json.put("id",annotation.getId());
+            json.put("userId",annotation.getUserId());
+            json.put("passageId",annotation.getPassageId());
+            json.put("start",annotation.getStart());
+            json.put("end",annotation.getEnd());
+            json.put("content",annotation.getContent());
+            json.put("type",annotation.getType());
+            json.put("selected",annotation.getSelected());
+            json.put("paragraph",annotation.getParagraph());
+            int userType = userDao.findById(annotation.getUserId()).getType();
+            json.put("userType",userType);
+            jsonArray.add(json);
+        }
         return JSONArray.fromObject(annotations).toString();
     }
 
@@ -299,9 +324,12 @@ public class AnnotationController {
         if (commonsMultipartResolver.isMultipart(request)) {//有文件上传
             MultipartHttpServletRequest fileRequest = (MultipartHttpServletRequest)request;
             MultipartFile file = fileRequest.getFile("image");
-            String path = request.getServletContext().getRealPath("static"+File.separator+"uploadFiles");
-            String fileName = file.getOriginalFilename();
-            if(!file.isEmpty()||fileName.equals("")){
+            //System.out.printf(file.toString());
+            if((!file.isEmpty())&&(!file.getOriginalFilename().equals(""))){
+                //String path = request.getServletContext().getRealPath("static"+File.separator+"uploadFiles");
+                String path = new File(request.getServletContext().getRealPath("")).getParentFile().getAbsolutePath()+File.separator+"uploadFiles"+File.separator+"EAnnotation";
+                System.out.printf("path:"+path+"\n");
+                String fileName = file.getOriginalFilename();
                 File pFile = new File(path);
                 if(!pFile.exists()){
                     pFile.mkdirs();
@@ -389,6 +417,7 @@ public class AnnotationController {
         List<Homework> homeworks = homeworkDao.findByStudent(StudentId);
         JSONArray jsonArray = new JSONArray();
         for(Homework homework:homeworks){
+            System.out.printf("id:"+homework.getId());
             JSONObject obj = new JSONObject();
             obj.put("id",homework.getId());
             obj.put("studentId",homework.getStudentId());
