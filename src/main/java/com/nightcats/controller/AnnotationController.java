@@ -7,6 +7,7 @@ import com.nightcats.dao.UserDao;
 import com.nightcats.data.Annotation;
 import com.nightcats.data.Homework;
 import com.nightcats.data.Passage;
+import com.nightcats.data.User;
 import com.nightcats.service.FrontService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -213,11 +214,12 @@ public class AnnotationController {
             json.put("type",annotation.getType());
             json.put("selected",annotation.getSelected());
             json.put("paragraph",annotation.getParagraph());
-            int userType = userDao.findById(annotation.getUserId()).getType();
-            json.put("userType",userType);
+            User user = userDao.findById(annotation.getUserId());
+            json.put("userType",user.getType());
+            json.put("userName",user.getAccount());
             jsonArray.add(json);
         }
-        return JSONArray.fromObject(annotations).toString();
+        return jsonArray.toString();
     }
 
     @RequestMapping(value = "getPassage",produces = "application/json; charset=utf-8")
@@ -268,7 +270,7 @@ public class AnnotationController {
             json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
-            json.put("teacherId",passage.getTeacherId());
+            json.put("teacherId",passage.getReleaseId());
             if(passage.getEndTime() != null){
                 json.put("endTime",passage.getEndTime().toString());
             }else{
@@ -292,6 +294,7 @@ public class AnnotationController {
     @RequestMapping(value = "/addPassage")
     @ResponseBody
     public String addPassage(HttpServletRequest request){
+        String send = "success";
         String title = request.getParameter("title");
         String content = request.getParameter("editorValue");
         Date releaseTime = new Date(System.currentTimeMillis());      //TODO 不知为何会少13小时
@@ -322,30 +325,35 @@ public class AnnotationController {
         commonsMultipartResolver.setDefaultEncoding("utf-8");
         // 判断是否有文件上传
         if (commonsMultipartResolver.isMultipart(request)) {//有文件上传
+            //send+=":+hasFileUpload";
             MultipartHttpServletRequest fileRequest = (MultipartHttpServletRequest)request;
             MultipartFile file = fileRequest.getFile("image");
             //System.out.printf(file.toString());
             if((!file.isEmpty())&&(!file.getOriginalFilename().equals(""))){
                 //String path = request.getServletContext().getRealPath("static"+File.separator+"uploadFiles");
                 String path = new File(request.getServletContext().getRealPath("")).getParentFile().getAbsolutePath()+File.separator+"uploadFiles"+File.separator+"EAnnotation";
-                System.out.printf("path:"+path+"\n");
+                //send+="+not empty and path:"+path+"\n";
                 String fileName = file.getOriginalFilename();
                 File pFile = new File(path);
+                pFile.setWritable(true,false);
                 if(!pFile.exists()){
                     pFile.mkdirs();
                 }
                 String ultiPath = path+File.separator+frontService.generateRandomFilename()+fileName.substring(fileName.lastIndexOf(".")+1);
                 File ultiFile = new File(ultiPath);
+                ultiFile.setWritable(true,false);
                 try {
                     file.transferTo(ultiFile);
                     photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
+                    //send+="+save success and photo:"+photo;
                 } catch (IOException e) {
+                    //send+="+exception:"+e.getMessage();
                     e.printStackTrace();
                 }
             }
         }
         frontService.addPassage(title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
-        return "success";
+        return send;
     }
 
     //批注的怎删改查-->
@@ -409,77 +417,4 @@ public class AnnotationController {
         return "success";
     }
     //<--批注的增加删改查
-
-    @RequestMapping(value = "/getAllHomework",produces="text/json;charset=utf-8")
-    @ResponseBody
-    public String getAllHomework(@RequestParam("id")int StudentId){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        List<Homework> homeworks = homeworkDao.findByStudent(StudentId);
-        JSONArray jsonArray = new JSONArray();
-        for(Homework homework:homeworks){
-            System.out.printf("id:"+homework.getId());
-            JSONObject obj = new JSONObject();
-            obj.put("id",homework.getId());
-            obj.put("studentId",homework.getStudentId());
-            obj.put("teacherId",homework.getTeacherId());
-            obj.put("passageId",homework.getPassageId());
-            obj.put("finish",homework.isFinish());
-            obj.put("score",homework.getScore());
-            Passage passage = passageDao.findById(homework.getPassageId());
-            obj.put("passageTitle",passage.getTitle());
-            obj.put("passageContent",passage.getContent());
-            if(passage.getTheme()!=null){
-                obj.put("passageTheme",passage.getTheme());
-            }else{
-                obj.put("passageTheme","");
-            }
-            obj.put("endTime",passage.getEndTime().toString());
-            obj.put("releaseTime",format.format(passage.getReleaseTime()));
-            jsonArray.add(obj);
-        }
-        return jsonArray.toString();
-    }
-
-    @RequestMapping(value="/getStudentHomework",produces = "text/json;charset=utf-8")
-    @ResponseBody
-    public String getStudentHomework(int teacherId){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        List<Passage> passages = passageDao.findHomeByTeach(teacherId);
-        JSONArray jsonArray = new JSONArray();
-        for(Passage passage:passages){
-            JSONObject json = new JSONObject();
-            json.put("id",passage.getId());
-            json.put("title",passage.getTitle());
-            json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
-            json.put("releaseTime",format.format(passage.getReleaseTime()));
-            json.put("classId",passage.getClassId());
-            json.put("type",passage.getType());
-            json.put("teacherId",passage.getTeacherId());
-            if(passage.getEndTime() != null){
-                json.put("endTime",passage.getEndTime().toString());
-            }else{
-                json.put("endTime","");
-            }
-            if(passage.getPhoto() != null){
-                json.put("photo",passage.getPhoto());
-            }else{
-                json.put("photo","");
-            }
-            if(passage.getTheme() != null){
-                json.put("theme",passage.getTheme());
-            }else{
-                json.put("theme","");
-            }
-            jsonArray.add(json);
-        }
-        return jsonArray.toString();
-    }
-
-    @RequestMapping("/setFinish")
-    @ResponseBody
-    public String setFinish(int studentId){
-
-        return "success";
-    }
 }

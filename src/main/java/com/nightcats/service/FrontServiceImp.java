@@ -63,7 +63,7 @@ public class FrontServiceImp implements FrontService{
         passage.setAuth(auth);
         passage.setClassId(classId);
         passage.setType(type);
-        passage.setTeacherId(teacherId);
+        passage.setReleaseId(teacherId);
         passageDao.add(passage);
     }
 

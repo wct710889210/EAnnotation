@@ -13,6 +13,7 @@ public interface AnnotationDao {
     //通过用户id和文章id获取所有批注
     public List<Annotation> findAnnsBy2Id(int userId, int passageId);
     public List<Annotation> findAnnsByPass(int passageId);
+    public List<Annotation> findAnnsById(int userId);
     public int getCountByPass(int passwordId);
     public int getMaxId();
 }

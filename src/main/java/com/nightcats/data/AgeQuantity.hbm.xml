@@ -4,10 +4,10 @@
                 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 <class name="com.nightcats.data.AgeQuantity" table="agequantity">
-    <id name="id" column="id" type="int">
-        <generator class="increment"/>
-    </id>
-    <property name="age" column="age" type="int" not-null="true"/>
-    <property name="count" column="count" type="int" not-null="true"/>
-</class>
-</hibernate-mapping>
+<id name="id" column="id" type="int">
+<generator class="increment"/>
+</id>
+<property name="age" column="age" type="int" not-null="true"/>
+<property name="count" column="count" type="int" not-null="true"/>
+        </class>
+        </hibernate-mapping>
