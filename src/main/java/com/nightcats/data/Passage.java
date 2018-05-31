@@ -11,16 +11,25 @@ public class Passage {
     private Date releaseTime;
     private String theme;
     private String auth;
-    private int classId;
+    private Integer classId;
     private int type;
-    private int teacherId;
+    private int releaseId;
+    private Integer groupId;
 
-    public int getTeacherId() {
-        return teacherId;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getReleaseId() {
+        return releaseId;
+    }
+
+    public void setReleaseId(int releaseId) {
+        this.releaseId = releaseId;
     }
 
     public Date getReleaseTime() {
@@ -95,11 +104,11 @@ public class Passage {
         this.auth = auth;
     }
 
-    public int getClassId() {
+    public Integer getClassId() {
         return classId;
     }
 
-    public void setClassId(int classId) {
+    public void setClassId(Integer classId) {
         this.classId = classId;
     }
 }

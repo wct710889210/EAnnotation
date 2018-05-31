@@ -82,4 +82,12 @@ public class Annotation {
     public void setParagraph(int paragraph) {
         this.paragraph = paragraph;
     }
+
+    //构造方法
+    public Annotation(int passageId) {
+        this.passageId = passageId;
+    }
+
+    public Annotation() {
+    }
 }

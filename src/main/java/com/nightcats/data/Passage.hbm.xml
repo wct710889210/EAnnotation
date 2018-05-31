@@ -14,8 +14,9 @@
         <property name="releaseTime" column="release_time" type="timestamp" not-null="true"/>
         <property name="theme" column="theme" type="string" not-null="false"/>
         <property name="auth" column="auth" type="string" not-null="true"/>
-        <property name="classId" column="class_id" type="int" not-null="true"/>
         <property name="type" column="type" type="int" not-null="true"/>
-        <property name="teacherId" column="teacher_id" type="int" not-null="true" />
+        <property name="classId" column="class_id" type="int" not-null="false"/>
+        <property name="groupId" column="group_id" type="int" not-null="false"/>
+        <property name="releaseId" column="release_id" type="int" not-null="true" />
     </class>
 </hibernate-mapping>

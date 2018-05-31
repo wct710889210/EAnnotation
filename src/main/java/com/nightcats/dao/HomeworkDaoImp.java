@@ -33,4 +33,20 @@ public class HomeworkDaoImp implements HomeworkDao{
     public List<Homework> findByStudent(int studentId) {
         return sessionFactory.getCurrentSession().createQuery("from Homework where studentId = ?").setParameter(0,studentId).list();
     }
+
+    @Override
+    public List<Homework> findAllHomework(int studentId, int classId) {
+        return sessionFactory.getCurrentSession().createQuery("from Homework where studentId = ? and classId = ?").setParameter(0,studentId).setParameter(1,classId).list();
+    }
+
+    @Override
+    public Homework findByQuery(String query) {
+        return (Homework) sessionFactory.getCurrentSession().createQuery(query).uniqueResult();
+    }
+
+    @Override
+    public List<Homework> findListByQuery(String query) {
+        return sessionFactory.getCurrentSession().createQuery(query).list();
+    }
+
 }

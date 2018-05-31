@@ -47,6 +47,12 @@ public class AnnotationDaoImp implements AnnotationDao{
         return session.createQuery("from Annotation where passageId=? order by id").setParameter(0,passageId).list();
     }
 
+    @Override
+    public List<Annotation> findAnnsById(int userId) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select distinct new Annotation(annotation.passageId) from Annotation as annotation where annotation.userId = ?").setParameter(0,userId).list();
+    }
+
 
     @Override
     public int getCountByPass(int passageId) {
