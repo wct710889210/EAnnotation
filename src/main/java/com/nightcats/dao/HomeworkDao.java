@@ -10,4 +10,7 @@ public interface HomeworkDao {
     public void update(Homework homework);
     public List<Homework> findByStudent(int studentId);
     public List<Homework> findAllHomework(int studentId,int classId);    //获取指定班级指定学生的所有作业
+
+    public Homework findByQuery(String query);
+    public List<Homework> findListByQuery(String query);
 }

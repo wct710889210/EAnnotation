@@ -73,4 +73,11 @@ public class Homework {
     public void setScore(String score) {
         this.score = score;
     }
+
+    public Homework(int passageId) {
+        this.passageId = passageId;
+    }
+
+    public Homework() {
+    }
 }
