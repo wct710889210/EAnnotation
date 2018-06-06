@@ -93,6 +93,7 @@ public class UserController {
         if(session.getAttribute("account") != null){
             String account = (String)session.getAttribute("account");
             User user = userDao.findUserByAccount(account);
+            user.setPassword(null);
             JSONObject json = JSONObject.fromObject(user);
             if(callback != null){
                 MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);

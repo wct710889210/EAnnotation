@@ -1,13 +1,7 @@
 package com.nightcats.controller;
 
-import com.nightcats.dao.AnnotationDao;
-import com.nightcats.dao.ExcellentDao;
-import com.nightcats.dao.HomeworkDao;
-import com.nightcats.dao.PassageDao;
-import com.nightcats.data.Annotation;
-import com.nightcats.data.Excellent;
-import com.nightcats.data.Homework;
-import com.nightcats.data.Passage;
+import com.nightcats.dao.*;
+import com.nightcats.data.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,6 +27,9 @@ public class HomeworkController {
 
     @Autowired
     private ExcellentDao excellentDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "/getAllHomework",produces="text/json;charset=utf-8")
     @ResponseBody
@@ -73,9 +73,9 @@ public class HomeworkController {
 
     @RequestMapping(value="/getStudentHomework",produces = "text/json;charset=utf-8")
     @ResponseBody
-    public String getStudentHomework(int teacherId){
+    public String getStudentHomework(int teacherId,int classId){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        List<Passage> passages = passageDao.findHomeByTeach(teacherId);
+        List<Passage> passages = passageDao.findHomeByTeach(teacherId,classId);
         JSONArray jsonArray = new JSONArray();
         for(Passage passage:passages){
             JSONObject json = new JSONObject();
@@ -112,6 +112,7 @@ public class HomeworkController {
     public String setFinish(int studentId,int classId,int passageId){
         Homework homework = homeworkDao.findByQuery("from Homework where studentId = "+studentId+" and classId = "+classId+" and passageId = "+passageId);
         homework.setFinish(true);
+        homework.setFinishTime(new Date());
         homeworkDao.update(homework);
         return "success";
     }
@@ -120,20 +121,37 @@ public class HomeworkController {
     @ResponseBody
     public String getFinishedHome(int id){
         Homework homework =homeworkDao.findByQuery("from Homework where id = "+id);
-        return JSONObject.fromObject(homework).toString();
+        JSONObject obj = new JSONObject();
+        obj.put("id",homework.getId());
+        obj.put("classId",homework.getClassId());
+        obj.put("teacherId",homework.getTeacherId());
+        obj.put("studentId",homework.getStudentId());
+        obj.put("passageId",homework.getPassageId());
+        if(homework.getScore() == null){
+            obj.put("score","");
+        }else{
+            obj.put("score",homework.getScore());
+        }
+        if(homework.getRemark() == null){
+            obj.put("remark","");
+        }else{
+            obj.put("remark",homework.getRemark());
+        }
+        obj.put("finish",homework.isFinish());
+        return obj.toString();
     }
 
     @RequestMapping(value = "/getExcellent",produces = "text/json;charset=utf-8")
     @ResponseBody
     public String getExcellent(int classId){
         JSONArray array = new JSONArray();
-        List<Excellent> excellents = excellentDao.findByClassId(classId);
-        for(Excellent excellent:excellents){
+        List<Homework> homeworks = homeworkDao.findListByQuery("from Homework where classId = "+classId+" and score = 'A+'");
+        for(Homework homework:homeworks){
             JSONObject obj = new JSONObject();
-            obj.put("id",excellent.getId());
-            obj.put("classId",excellent.getClassId());
-            obj.put("userId",excellent.getUserId());
-            int passageId = excellent.getPassageId();
+            obj.put("id",homework.getId());
+            obj.put("classId",homework.getClassId());
+            obj.put("userId",homework.getStudentId());
+            int passageId = homework.getPassageId();
             obj.put("passageId",passageId);
             Passage passage = passageDao.findById(passageId);
             obj.put("theme",passage.getTheme());
@@ -148,19 +166,71 @@ public class HomeworkController {
     @RequestMapping(value = "/getFinishList",produces = "text/json;charset=utf-8")
     @ResponseBody
     public String getFinishList(int passageId,int classId,int teacherId){
-        JSONArray array = JSONArray.fromObject(homeworkDao.findListByQuery("from Homework where passageId = "+passageId+" and classId = "+classId+" and teacherId = "+teacherId));
+        JSONArray array = new JSONArray();
+        List<Homework> homeworks = homeworkDao.findListByQuery("from Homework where passageId = "+passageId+" and classId = "+classId+" and teacherId = "+teacherId);
+        for(Homework homework:homeworks){
+            JSONObject obj = new JSONObject();
+            obj.put("id",homework.getId());
+            obj.put("classId",homework.getClassId());
+            obj.put("teacherId",homework.getTeacherId());
+            obj.put("studentId",homework.getStudentId());
+            obj.put("passageId",homework.getPassageId());
+            if(homework.getScore() == null){
+                obj.put("score","");
+            }else{
+                obj.put("score",homework.getScore());
+            }
+            if(homework.getRemark() == null){
+                obj.put("remark","");
+            }else{
+                obj.put("remark",homework.getRemark());
+            }
+            obj.put("finish",homework.isFinish());
+            User user = userDao.findById(homework.getStudentId());
+            obj.put("studentName",user.getAccount());
+            array.add(obj);
+        }
         return array.toString();
     }
 
     //
     @RequestMapping(value = "/setScore",produces = "text/json;charset=utf-8")
     @ResponseBody
-    public String setScore(int passageId,int classId,int studentId,String score,String remark){
+    public String setScore(int passageId,int classId,int studentId,@RequestParam(value = "score",required = false)String score,@RequestParam(value = "remark",required = false) String remark){
         Homework homework = homeworkDao.findByQuery("from Homework where passageId = "+passageId+" and classId = "+classId+" and studentId = "+studentId);
+        if(score.equals("A+，推荐为优秀作业")){
+            score = "A+";
+        }
         homework.setScore(score);
         homework.setRemark(remark);
-        System.out.print("updating\n");
         homeworkDao.update(homework);
         return "success";
     }
+
+    @RequestMapping(value = "/getHomeById",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getHomeById(int id){
+        Homework homework = homeworkDao.findByQuery("from Homework where id = "+id);
+        JSONObject obj = new JSONObject();
+        obj.put("id",homework.getId());
+        obj.put("classId",homework.getClassId());
+        obj.put("teacherId",homework.getTeacherId());
+        obj.put("studentId",homework.getStudentId());
+        obj.put("passageId",homework.getPassageId());
+        obj.put("score",homework.getScore());
+        obj.put("remark",homework.getRemark());
+        obj.put("finish",homework.isFinish());
+        return obj.toString();
+    }
+
+//    @RequestMapping(value = "/pushGood",produces = "text/json;charset=utf-8")
+//    @ResponseBody
+//    public String pushGood(int classId,int userId,int passageId){
+//        Excellent excellent = new Excellent();
+//        excellent.setClassId(classId);
+//        excellent.setUserId(userId);
+//        excellent.setPassageId(passageId);
+//        excellentDao.add(excellent);
+//        return "success";
+//    }
 }

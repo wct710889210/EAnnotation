@@ -52,8 +52,9 @@ public class FrontServiceImp implements FrontService{
     }
 
     @Override
-    public void addPassage(String title, String content, String photo, Date releaseTime, Date endTime, String theme, String auth, int classId, int type,int teacherId) {
+    public void addPassage(int id,String title, String content, String photo, Date releaseTime, Date endTime, String theme, String auth, int classId, int type,int teacherId) {
         Passage passage = new Passage();
+        passage.setId(id);
         passage.setTitle(title);
         passage.setContent(content);
         passage.setPhoto(photo);

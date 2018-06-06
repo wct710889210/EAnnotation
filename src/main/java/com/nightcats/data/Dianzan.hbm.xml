@@ -3,11 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.nightcats.data.ClassMember" table="classmember">
+    <class name="com.nightcats.data.Dianzan" table="dianzan">
         <id name="id" column="id" type="int">
             <generator class="increment"/>
         </id>
-        <property name="classId" column="class_id" type="int" not-null="true"/>
         <property name="userId" column="user_id" type="int" not-null="true"/>
+        <property name="passageId" column="passage_id" type="int" not-null="true"/>
+        <property name="annotationId" column="annotation_id" type="int" not-null="false"/>
     </class>
 </hibernate-mapping>
