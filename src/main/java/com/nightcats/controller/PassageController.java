@@ -1,16 +1,17 @@
 package com.nightcats.controller;
 
-import com.nightcats.dao.AnnotationDao;
-import com.nightcats.dao.HomeworkDao;
-import com.nightcats.dao.PassageDao;
-import com.nightcats.dao.UserDao;
+import com.nightcats.dao.*;
+import com.nightcats.data.Dianzan;
+import com.nightcats.data.Homework;
 import com.nightcats.data.Passage;
+import com.nightcats.data.User;
 import com.nightcats.service.FrontService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +34,12 @@ public class PassageController {
     private AnnotationDao annotationDao;
     @Autowired
     private PassageDao passageDao;
+    @Autowired
+    private HomeworkDao homeworkDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private DianzanDao dianzanDao;
 
     @RequestMapping(value = "getPassage",produces = "application/json; charset=utf-8")
     @ResponseBody
@@ -97,6 +105,8 @@ public class PassageController {
             }else{
                 json.put("theme","");
             }
+            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passage.getId());
+            json.put("likeCount",count);
             jsonArray.add(json);
         }
         return jsonArray.toString();
@@ -115,14 +125,13 @@ public class PassageController {
             try {
                 String timeStr = request.getParameter("endTime");
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                endTime = new Date(formatter.parse(timeStr).getTime() + 86400000);    //TODO 不知为何会少一天
+                endTime = new Date(formatter.parse(timeStr).getTime());    //TODO 不知为何会少一天
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         String auth = request.getParameter("auth");
         int classId = Integer.parseInt(request.getParameter("classId"));
-        int type = Integer.parseInt(request.getParameter("type"));
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         String theme = null;
         if(request.getParameter("theme") != null){
@@ -130,6 +139,20 @@ public class PassageController {
         }
         String photo = null;
 
+        int passageId = passageDao.getMax();        //获取目前最大id
+        int type = Integer.parseInt(request.getParameter("type"));
+        if(type == 0){
+            List<User> users = userDao.findStusByTech(teacherId);
+            for(User user:users){
+                Homework homework = new Homework();
+                homework.setFinish(false);
+                homework.setClassId(classId);
+                homework.setStudentId(user.getId());
+                homework.setTeacherId(teacherId);
+                homework.setPassageId(passageId+1);
+                homeworkDao.add(homework);
+            }
+        }
         // 创建一个通用的多部分解析器.
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         // 设置编码
@@ -163,7 +186,7 @@ public class PassageController {
                 }
             }
         }
-        frontService.addPassage(title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
+        frontService.addPassage(passageId,title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
         return send;
     }
 
@@ -202,5 +225,61 @@ public class PassageController {
             jsonArray.add(json);
         }
         return jsonArray.toString();
+    }
+
+    @RequestMapping(value = "/setLike",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String setLike(HttpServletRequest request,int userId,int passageId){
+        Dianzan dianzan = new Dianzan();
+        dianzan.setUserId(userId);
+        dianzan.setPassageId(passageId);
+        if(request.getParameter("annotationId") != null){
+            dianzan.setAnnotationId(Integer.parseInt(request.getParameter("annotationId")));
+        }
+        dianzanDao.add(dianzan);
+        return "success";
+    }
+
+    @RequestMapping(value = "/cancelLike",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String cancelLike(HttpServletRequest request,int userId,int passageId){
+        Dianzan dianzan;
+        if(request.getParameter("annotationId") != null){
+            dianzan = dianzanDao.getByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId+" and annotationId = "+request.getParameter("annotationId"));
+        }else{
+            dianzan = dianzanDao.getByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId);
+        }
+        dianzanDao.delete(dianzan.getId());
+        return "success";
+    }
+
+    @RequestMapping(value = "/isLike",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String isLike(HttpServletRequest request,int passageId,int userId){
+        List<Dianzan> dianzans = new ArrayList<Dianzan>();
+        if(request.getParameter("annotationId") != null){
+            dianzans = dianzanDao.findListByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId+" and annotationId = "+request.getParameter("annotationId"));
+        }else{
+            dianzans = dianzanDao.findListByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId);
+        }
+        if(dianzans.isEmpty()){
+            return "false";
+        }else{
+            return "true";
+        }
+    }
+
+    @RequestMapping(value = "/countLike",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String countLike(HttpServletRequest request){
+        String passage = request.getParameter("passageId");
+        String annotation = request.getParameter("annotationId");
+        if(passage != null && annotation == null){
+            return dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passage)+"";
+        }
+        if(passage == null && annotation != null){
+            return dianzanDao.getCountByQuery("select count(*) from Dianzan where annotationId = "+annotation)+"";
+        }
+        return "-1";
     }
 }

@@ -96,4 +96,18 @@ public class ClassController {
         }
         return array.toString();
     }
+
+    @RequestMapping(value = "getClassStudents",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getClassStudents(int classId){
+        List<ClassMember> classMembers = classMemberDao.findByClass(classId);
+        JSONArray array = new JSONArray();
+        for(ClassMember classMember:classMembers){
+            User user = userDao.findById(classMember.getUserId());
+            JSONObject obj = new JSONObject();
+            obj.put("account",user.getAccount());
+            array.add(obj);
+        }
+        return array.toString();
+    }
 }

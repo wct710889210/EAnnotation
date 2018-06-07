@@ -36,7 +36,7 @@ public class HomeworkDaoImp implements HomeworkDao{
 
     @Override
     public List<Homework> findAllHomework(int studentId, int classId) {
-        return sessionFactory.getCurrentSession().createQuery("from Homework where studentId = ? and classId = ?").setParameter(0,studentId).setParameter(1,classId).list();
+        return sessionFactory.getCurrentSession().createQuery("from Homework where studentId = ? and classId = ? order by finishTime desc").setParameter(0,studentId).setParameter(1,classId).list();
     }
 
     @Override

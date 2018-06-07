@@ -39,8 +39,13 @@ public class PassageDaoImp implements PassageDao{
     }
 
     @Override
-    public List<Passage> findHomeByTeach(int teacherId) {
-        return sessionFactory.getCurrentSession().createQuery("from Passage where releaseId=? and type=0").setParameter(0,teacherId).list();
+    public List<Passage> findHomeByTeach(int teacherId,int classId) {
+        return sessionFactory.getCurrentSession().createQuery("from Passage where releaseId=? and classId=? and type=0").setParameter(0,teacherId).setParameter(1,classId).list();
+    }
+
+    @Override
+    public int getMax() {
+        return (int)sessionFactory.getCurrentSession().createQuery("select max(id) from Passage").uniqueResult();
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface FrontService {
     public void updateAnnotation(int id,int userID,int passageId,int start,int end,String content,int type,String selected,int paragraph);
 
     //文章
-    public void addPassage(String title, String content, String photo,Date releaseTime, Date endTime, String theme, String auth, int classId, int type,int teacherId);
+    public void addPassage(int id,String title, String content, String photo,Date releaseTime, Date endTime, String theme, String auth, int classId, int type,int teacherId);
 
     //工具方法
     public String generateRandomFilename();

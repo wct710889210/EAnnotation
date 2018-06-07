@@ -1,5 +1,7 @@
 package com.nightcats.data;
 
+import java.util.Date;
+
 public class Homework {
     private int id;
     private int studentId;
@@ -9,6 +11,7 @@ public class Homework {
     private boolean finish;
     private String score;
     private String remark;
+    private Date finishTime;
 
     public int getClassId() {
         return classId;
@@ -72,6 +75,14 @@ public class Homework {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 
     public Homework(int passageId) {

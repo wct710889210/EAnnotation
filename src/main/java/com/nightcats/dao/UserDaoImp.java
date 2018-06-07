@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("userDao")
 public class UserDaoImp implements UserDao {
     @Autowired
@@ -18,5 +20,10 @@ public class UserDaoImp implements UserDao {
     @Override
     public User findById(int id) {
         return sessionFactory.getCurrentSession().get(User.class,id);
+    }
+
+    @Override
+    public List<User> findStusByTech(int teacherId) {
+        return sessionFactory.getCurrentSession().createQuery("from User where teacherId = ?").setParameter(0,teacherId).list();
     }
 }

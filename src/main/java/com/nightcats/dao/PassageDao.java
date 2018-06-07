@@ -11,8 +11,8 @@ public interface PassageDao {
     public Passage findById(int id);
     public List<Passage> findAll();
 
-    public List<Passage> findHomeByTeach(int teacherId);
-
+    public List<Passage> findHomeByTeach(int teacherId,int classId);
+    public int getMax();
     //获取所有班级讲义
     public List<Passage> findClassHandouts(int classId);
 }

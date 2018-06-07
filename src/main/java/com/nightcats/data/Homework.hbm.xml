@@ -14,5 +14,6 @@
         <property name="finish" column="is_finished" type="boolean" not-null="true"/>
         <property name="score" column="score" type="string" not-null="false"/>
         <property name="remark" column="remark" type="string" not-null="false"/>
+        <property name="finishTime" column="finish_time" type="java.util.Date" not-null="false"/>
     </class>
 </hibernate-mapping>
