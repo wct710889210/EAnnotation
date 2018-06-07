@@ -153,6 +153,9 @@ public class PassageController {
                 homeworkDao.add(homework);
             }
         }
+
+        System.out.print("maxId:"+passageId+"\n");
+
         // 创建一个通用的多部分解析器.
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         // 设置编码
@@ -179,6 +182,9 @@ public class PassageController {
                 try {
                     file.transferTo(ultiFile);
                     photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
+                    System.out.print("old:"+photo+"\n");
+                    photo = photo.replaceAll("\\\\","/");
+                    System.out.print("new:"+photo+"\n");
                     //send+="+save success and photo:"+photo;
                 } catch (IOException e) {
                     //send+="+exception:"+e.getMessage();
@@ -186,7 +192,7 @@ public class PassageController {
                 }
             }
         }
-        frontService.addPassage(passageId,title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
+        frontService.addPassage(passageId+1,title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
         return send;
     }
 

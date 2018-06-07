@@ -110,4 +110,10 @@ public class ClassController {
         }
         return array.toString();
     }
+
+    @RequestMapping(value = "getClassById",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getClassById(int id){
+        return JSONObject.fromObject(classDao.findById(id)).toString();
+    }
 }

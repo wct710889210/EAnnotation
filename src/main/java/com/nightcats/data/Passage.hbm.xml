@@ -5,7 +5,6 @@
 <hibernate-mapping>
     <class name="com.nightcats.data.Passage" table="passage">
         <id name="id" column="id" type="int">
-            <generator class="increment"/>
         </id>
         <property name="title" column="title" type="string" not-null="true"/>
         <property name="content" column="content" type="string" not-null="true"/>

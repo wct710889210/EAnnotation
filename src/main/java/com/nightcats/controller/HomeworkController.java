@@ -151,6 +151,8 @@ public class HomeworkController {
             obj.put("id",homework.getId());
             obj.put("classId",homework.getClassId());
             obj.put("userId",homework.getStudentId());
+            User user = userDao.findById(homework.getStudentId());
+            obj.put("userName",user.getAccount());
             int passageId = homework.getPassageId();
             obj.put("passageId",passageId);
             Passage passage = passageDao.findById(passageId);
