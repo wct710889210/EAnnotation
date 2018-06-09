@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.nightcats.data.LikeCount" table="likecount">
+        <id name="id" column="id" type="int">
+        </id>
+        <property name="type" column="type" type="int" not-null="true"/>
+        <property name="pa_id" column="pa_id" type="int" not-null="true"/>
+        <property name="num" column="num" type="int" not-null="true"/>
+    </class>
+</hibernate-mapping>

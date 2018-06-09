@@ -67,10 +67,9 @@ public class ClassController {
     @ResponseBody
     public String techGetHomeList(int teacherId,int classId){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        List<Homework> homeworks = homeworkDao.findListByQuery("select distinct new Homework(homework.passageId) from Homework as homework where teacherId = "+teacherId+" and classId = "+classId);
+        List<Passage> passages = passageDao.findListByQuery("from Passage where classId = "+classId+" and type=0 order by releaseTime desc");
         JSONArray array = new JSONArray();
-        for(Homework homework:homeworks){
-            Passage passage = passageDao.findById(homework.getPassageId());
+        for(Passage passage:passages){
             JSONObject json = new JSONObject();
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());

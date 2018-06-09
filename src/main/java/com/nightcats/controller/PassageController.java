@@ -1,10 +1,7 @@
 package com.nightcats.controller;
 
 import com.nightcats.dao.*;
-import com.nightcats.data.Dianzan;
-import com.nightcats.data.Homework;
-import com.nightcats.data.Passage;
-import com.nightcats.data.User;
+import com.nightcats.data.*;
 import com.nightcats.service.FrontService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -40,6 +37,8 @@ public class PassageController {
     private UserDao userDao;
     @Autowired
     private DianzanDao dianzanDao;
+    @Autowired
+    private LikeCountDao likeCountDao;
 
     @RequestMapping(value = "getPassage",produces = "application/json; charset=utf-8")
     @ResponseBody
@@ -182,9 +181,7 @@ public class PassageController {
                 try {
                     file.transferTo(ultiFile);
                     photo = ultiPath.substring(ultiPath.indexOf("uploadFiles"));
-                    System.out.print("old:"+photo+"\n");
                     photo = photo.replaceAll("\\\\","/");
-                    System.out.print("new:"+photo+"\n");
                     //send+="+save success and photo:"+photo;
                 } catch (IOException e) {
                     //send+="+exception:"+e.getMessage();
@@ -287,5 +284,35 @@ public class PassageController {
             return dianzanDao.getCountByQuery("select count(*) from Dianzan where annotationId = "+annotation)+"";
         }
         return "-1";
+    }
+
+    @RequestMapping(value = "/getRank",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getRank(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        List<LikeCount> ranks = likeCountDao.findAll();
+        JSONArray array = new JSONArray();
+        for(LikeCount rank:ranks){
+            JSONObject obj = new JSONObject();
+            if(rank.getType() == 0){
+                Passage passage = passageDao.findById(rank.getPa_id());
+                obj.put("passageId",passage.getId());
+                obj.put("title",passage.getTitle());
+                obj.put("theme",passage.getTheme());
+                obj.put("content",passage.getContent());
+                obj.put("releaseTime",format.format(passage.getReleaseTime()));
+                obj.put("photo",passage.getPhoto());
+                obj.put("likecount",rank.getNum());
+            }else if(rank.getType() == 1){
+                Annotation annotation = annotationDao.findById(rank.getPa_id());
+                obj.put("id",annotation.getId());
+                obj.put("selected",annotation.getSelected());
+                obj.put("content",annotation.getContent());
+                obj.put("passageId",annotation.getPassageId());
+                obj.put("likecount",rank.getNum());
+            }
+            array.add(obj);
+        }
+        return array.toString();
     }
 }

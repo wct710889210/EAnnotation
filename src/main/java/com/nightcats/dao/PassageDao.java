@@ -15,4 +15,6 @@ public interface PassageDao {
     public int getMax();
     //获取所有班级讲义
     public List<Passage> findClassHandouts(int classId);
+
+    public List<Passage> findListByQuery(String query);
 }

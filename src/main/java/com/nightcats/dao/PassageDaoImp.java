@@ -50,6 +50,11 @@ public class PassageDaoImp implements PassageDao{
 
     @Override
     public List<Passage> findClassHandouts(int classId) {
-        return sessionFactory.getCurrentSession().createQuery("from Passage where classId = ? and type = 1").setParameter(0,classId).list();
+        return sessionFactory.getCurrentSession().createQuery("from Passage where classId = ? and type = 1 order by releaseTime desc ").setParameter(0,classId).list();
+    }
+
+    @Override
+    public List<Passage> findListByQuery(String query) {
+        return sessionFactory.getCurrentSession().createQuery(query).list();
     }
 }
