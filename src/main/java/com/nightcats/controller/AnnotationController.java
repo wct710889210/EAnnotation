@@ -1,10 +1,8 @@
 package com.nightcats.controller;
 
-import com.nightcats.dao.AnnotationDao;
-import com.nightcats.dao.HomeworkDao;
-import com.nightcats.dao.PassageDao;
-import com.nightcats.dao.UserDao;
+import com.nightcats.dao.*;
 import com.nightcats.data.Annotation;
+import com.nightcats.data.Dianzan;
 import com.nightcats.data.User;
 import com.nightcats.service.FrontService;
 import net.sf.json.JSONArray;
@@ -30,6 +28,8 @@ public class AnnotationController {
     private HomeworkDao homeworkDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private DianzanDao dianzanDao;
 
     //页面-->
     @RequestMapping("/ancourse")
@@ -205,6 +205,8 @@ public class AnnotationController {
             User user = userDao.findById(annotation.getUserId());
             json.put("userType",user.getType());
             json.put("userName",user.getAccount());
+            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passageId+" and annotationId ="+annotation.getId());
+            json.put("likeCount",count);
             jsonArray.add(json);
         }
         return jsonArray.toString();
