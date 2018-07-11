@@ -10,4 +10,5 @@ public interface ClassMemberDao {
     public void update(ClassMember classMember);
     public List<ClassMember> findByClass(int classId);
     public List<ClassMember> findByUser(int userId);
+    public List<ClassMember> findByQuery(String query);
 }

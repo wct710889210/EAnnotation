@@ -2,11 +2,11 @@ package com.nightcats.data;
 
 import java.util.Date;
 
-public class Class {
+public class Group {
     private int id;
-    private int teacherId;
-    private String className;
+    private Integer founderId;
     private Date createTime;
+    private String name;
 
     public int getId() {
         return id;
@@ -16,20 +16,12 @@ public class Class {
         this.id = id;
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public Integer getFounderId() {
+        return founderId;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
+    public void setFounderId(Integer founderId) {
+        this.founderId = founderId;
     }
 
     public Date getCreateTime() {
@@ -38,5 +30,13 @@ public class Class {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

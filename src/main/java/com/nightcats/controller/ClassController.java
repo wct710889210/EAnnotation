@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,6 +31,8 @@ public class ClassController {
     @Autowired
     private PassageDao passageDao;
 
+    private int classStart = 121245;
+
     @RequestMapping(value = "getAllClass",produces = "text/json;charset=utf-8")
     @ResponseBody
     public String getAllClass(int studentId){
@@ -40,6 +43,22 @@ public class ClassController {
             User user = userDao.findById(myClass.getTeacherId());
             JSONObject obj = new JSONObject();
             obj.put("classId",classMember.getClassId());
+            obj.put("className",myClass.getClassName());
+            obj.put("teacher",user.getAccount());
+            array.add(obj);
+        }
+        return array.toString();
+    }
+
+    @RequestMapping(value = "getAllClasses",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getAllClasses(){
+        JSONArray array = new JSONArray();
+        List<Class> classes = classDao.findListByQuery("from Class");
+        for(Class myClass:classes){
+            User user = userDao.findById(myClass.getTeacherId());
+            JSONObject obj = new JSONObject();
+            obj.put("classId", myClass.getId());
             obj.put("className",myClass.getClassName());
             obj.put("teacher",user.getAccount());
             array.add(obj);
@@ -74,11 +93,10 @@ public class ClassController {
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
+            json.put("auth",userDao.findById(passage.getReleaseId()).getAccount());
             json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
-            json.put("teacherId",passage.getReleaseId());
             if(passage.getEndTime() != null){
                 json.put("endTime",passage.getEndTime().toString());
             }
@@ -114,5 +132,29 @@ public class ClassController {
     @ResponseBody
     public String getClassById(int id){
         return JSONObject.fromObject(classDao.findById(id)).toString();
+    }
+
+    @RequestMapping(value="createClass",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String createClass(int teacherId,String name){
+        int id = classDao.getMax();
+        Class myClass = new Class();
+        myClass.setId(id+1);
+        myClass.setClassName(name);
+        myClass.setTeacherId(teacherId);
+        myClass.setCreateTime(new Date());
+        classDao.add(myClass);
+        return ""+(id+1);
+    }
+
+    @RequestMapping(value="joinClass",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String joinGroup(int classNumber,int userId){
+        int classId = classNumber - classStart;
+        ClassMember classMember = new ClassMember();
+        classMember.setClassId(classId);
+        classMember.setUserId(userId);
+        classMemberDao.add(classMember);
+        return "success";
     }
 }

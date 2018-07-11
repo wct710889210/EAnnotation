@@ -45,13 +45,15 @@ public class UserController {
         }else{
             if(search.getPassword().equals(password)){
                     session.setAttribute("account",account);
+                    search.setPassword(null);
+                    JSONObject obj = JSONObject.fromObject(search);
                     //登录成功
                     if(callback != null){
-                        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(search.getId()+"");
+                        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(obj);
                         mappingJacksonValue.setJsonpFunction(callback);
                         return mappingJacksonValue;
                     }
-                    return search.getId()+"";
+                    return obj;
             }else {
                 //密码错误
                 if(callback != null){
@@ -124,11 +126,10 @@ public class UserController {
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
+            json.put("auth",userDao.findById(passage.getReleaseId()).getAccount());
             json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
-            json.put("teacherId",passage.getReleaseId());
             if(passage.getEndTime() != null){
                 json.put("endTime",passage.getEndTime().toString());
             }else{

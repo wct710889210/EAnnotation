@@ -10,4 +10,5 @@ public interface ClassDao {
     public void update(Class myClass);
     public Class findById(int id);
     public List<Class> findListByQuery(String query);
+    public int getMax();
 }

@@ -10,9 +10,8 @@ public class Passage {
     private Date endTime;
     private Date releaseTime;
     private String theme;
-    private String auth;
     private Integer classId;
-    private int type;
+    private Integer type;
     private int releaseId;
     private Integer groupId;
 
@@ -40,11 +39,11 @@ public class Passage {
         this.releaseTime = releaseTime;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -94,14 +93,6 @@ public class Passage {
 
     public void setTheme(String theme) {
         this.theme = theme;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
     }
 
     public Integer getClassId() {

@@ -82,11 +82,10 @@ public class HomeworkController {
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
+            json.put("auth",userDao.findById(passage.getReleaseId()).getAccount());
             json.put("releaseTime",format.format(passage.getReleaseTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
-            json.put("teacherId",passage.getReleaseId());
             if(passage.getEndTime() != null){
                 json.put("endTime",passage.getEndTime().toString());
             }else{

@@ -52,7 +52,7 @@ public class FrontServiceImp implements FrontService{
     }
 
     @Override
-    public void addPassage(int id,String title, String content, String photo, Date releaseTime, Date endTime, String theme, String auth, int classId, int type,int teacherId) {
+    public void addPassage(int id,String title, String content, String photo, Date releaseTime, Date endTime, String theme, Integer classId, Integer type,int teacherId,Integer groupId) {
         Passage passage = new Passage();
         passage.setId(id);
         passage.setTitle(title);
@@ -61,10 +61,10 @@ public class FrontServiceImp implements FrontService{
         passage.setReleaseTime(releaseTime);
         passage.setEndTime(endTime);
         passage.setTheme(theme);
-        passage.setAuth(auth);
         passage.setClassId(classId);
         passage.setType(type);
         passage.setReleaseId(teacherId);
+        passage.setGroupId(groupId);
         passageDao.add(passage);
     }
 
