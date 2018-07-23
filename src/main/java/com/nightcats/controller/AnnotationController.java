@@ -30,6 +30,8 @@ public class AnnotationController {
     private UserDao userDao;
     @Autowired
     private DianzanDao dianzanDao;
+    @Autowired
+    private LikeCountDao likeCountDao;
 
     //页面-->
     @RequestMapping("/ancourse")
@@ -205,7 +207,7 @@ public class AnnotationController {
             User user = userDao.findById(annotation.getUserId());
             json.put("userType",user.getType());
             json.put("userName",user.getAccount());
-            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passageId+" and annotationId ="+annotation.getId());
+            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where annotationId="+annotation.getId());
             json.put("likeCount",count);
             jsonArray.add(json);
         }

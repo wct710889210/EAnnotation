@@ -4,10 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.nightcats.data.Class" table="class">
-        <id name="id" column="id" type="int">
-            <generator class="increment"/>
-        </id>
+        <id name="id" column="id" type="int"/>
         <property name="teacherId" column="teacher_id" type="int" not-null="true"/>
         <property name="className" column="name" type="string" not-null="true"/>
+        <property name="createTime" column="create_time" type="java.util.Date" not-null="true"/>
     </class>
 </hibernate-mapping>

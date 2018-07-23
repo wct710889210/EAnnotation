@@ -39,4 +39,13 @@ public class ClassDaoImp implements ClassDao{
     public List<Class> findListByQuery(String query) {
         return sessionFactory.getCurrentSession().createQuery(query).list();
     }
+
+    @Override
+    public int getMax() {
+        if(sessionFactory.getCurrentSession().createQuery("select max(id) from Class").uniqueResult()!=null){
+            return (int)sessionFactory.getCurrentSession().createQuery("select max(id) from Class").uniqueResult();
+        }else{
+            return 0;
+        }
+    }
 }

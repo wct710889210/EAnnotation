@@ -35,7 +35,7 @@ public class PassageDaoImp implements PassageDao{
 
     @Override
     public List<Passage> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("From Passage").list();
+        return sessionFactory.getCurrentSession().createQuery("From Passage where type is null and groupId is null").list();
     }
 
     @Override
@@ -45,7 +45,11 @@ public class PassageDaoImp implements PassageDao{
 
     @Override
     public int getMax() {
-        return (int)sessionFactory.getCurrentSession().createQuery("select max(id) from Passage").uniqueResult();
+        if(sessionFactory.getCurrentSession().createQuery("select max(id) from Passage").uniqueResult()!=null){
+            return (int)sessionFactory.getCurrentSession().createQuery("select max(id) from Passage").uniqueResult();
+        }else{
+            return 0;
+        }
     }
 
     @Override

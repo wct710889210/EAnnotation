@@ -40,4 +40,9 @@ public class ClassMemberDaoImp implements ClassMemberDao{
     public List<ClassMember> findByUser(int userId) {
         return sessionFactory.getCurrentSession().createQuery("from ClassMember where userId = ?").setParameter(0,userId).list();
     }
+
+    @Override
+    public List<ClassMember> findByQuery(String query) {
+        return sessionFactory.getCurrentSession().createQuery(query).list();
+    }
 }

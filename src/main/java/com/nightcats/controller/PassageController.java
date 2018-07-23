@@ -50,10 +50,12 @@ public class PassageController {
         json.put("id",passage.getId());
         json.put("title",passage.getTitle());
         json.put("content",passage.getContent());
-        json.put("auth",passage.getAuth());
+        User user = userDao.findById(passage.getReleaseId());
+        json.put("auth",user.getAccount());
         json.put("releaseTime",format.format(passage.getReleaseTime()));
         json.put("classId",passage.getClassId());
         json.put("type",passage.getType());
+        json.put("teacherId",passage.getReleaseId());
         if(passage.getEndTime() != null){
             json.put("endTime",passage.getEndTime().toString());
         }else{
@@ -84,7 +86,7 @@ public class PassageController {
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
+            json.put("auth",userDao.findById(passage.getReleaseId()).getAccount());
             json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
@@ -104,7 +106,7 @@ public class PassageController {
             }else{
                 json.put("theme","");
             }
-            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passage.getId());
+            long count = dianzanDao.getCountByQuery("select count(*) from Dianzan where passageId = "+passage.getId()+" and annotationId IS NULL");
             json.put("likeCount",count);
             jsonArray.add(json);
         }
@@ -117,21 +119,31 @@ public class PassageController {
         String send = "success";
         String title = request.getParameter("title");
         String content = request.getParameter("editorValue");
-        Date releaseTime = new Date(System.currentTimeMillis());      //TODO 不知为何会少13小时
+        Date releaseTime = new Date(System.currentTimeMillis());
         //若发生异常截止时间为当前时间
         Date endTime = null;
         if(request.getParameter("endTime")!= null) {
             try {
                 String timeStr = request.getParameter("endTime");
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                endTime = new Date(formatter.parse(timeStr).getTime());    //TODO 不知为何会少一天
+                endTime = new Date(formatter.parse(timeStr).getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        String auth = request.getParameter("auth");
-        int classId = Integer.parseInt(request.getParameter("classId"));
+
+        Integer classId = null;
+        if(request.getParameter("classId") != null){
+            classId = Integer.parseInt(request.getParameter("classId"));
+        }
+
+        Integer groupId = null;
+        if(request.getParameter("groupId") != null){
+            groupId = Integer.parseInt(request.getParameter("groupId"));
+        }
+
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+
         String theme = null;
         if(request.getParameter("theme") != null){
             theme = request.getParameter("theme");
@@ -139,17 +151,20 @@ public class PassageController {
         String photo = null;
 
         int passageId = passageDao.getMax();        //获取目前最大id
-        int type = Integer.parseInt(request.getParameter("type"));
-        if(type == 0){
-            List<User> users = userDao.findStusByTech(teacherId);
-            for(User user:users){
-                Homework homework = new Homework();
-                homework.setFinish(false);
-                homework.setClassId(classId);
-                homework.setStudentId(user.getId());
-                homework.setTeacherId(teacherId);
-                homework.setPassageId(passageId+1);
-                homeworkDao.add(homework);
+        Integer type = null;
+        if(request.getParameter("type") != null) {
+            type = Integer.parseInt(request.getParameter("type"));
+            if (type == 0) {
+                List<User> users = userDao.findStusByTech(teacherId);
+                for (User user : users) {
+                    Homework homework = new Homework();
+                    homework.setFinish(false);
+                    homework.setClassId(classId);
+                    homework.setStudentId(user.getId());
+                    homework.setTeacherId(teacherId);
+                    homework.setPassageId(passageId + 1);
+                    homeworkDao.add(homework);
+                }
             }
         }
 
@@ -189,7 +204,7 @@ public class PassageController {
                 }
             }
         }
-        frontService.addPassage(passageId+1,title,content,photo,releaseTime,endTime,theme,auth,classId,type,teacherId);
+        frontService.addPassage(passageId+1,title,content,photo,releaseTime,endTime,theme,classId,type,teacherId,groupId);
         return send;
     }
 
@@ -208,7 +223,7 @@ public class PassageController {
             json.put("id",passage.getId());
             json.put("title",passage.getTitle());
             json.put("content",passage.getContent());
-            json.put("auth",passage.getAuth());
+            json.put("auth",userDao.findById(passage.getReleaseId()).getAccount());
             json.put("releaseTime",format.format(passage.getReleaseTime().getTime()));
             json.put("classId",passage.getClassId());
             json.put("type",passage.getType());
@@ -250,7 +265,7 @@ public class PassageController {
         if(request.getParameter("annotationId") != null){
             dianzan = dianzanDao.getByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId+" and annotationId = "+request.getParameter("annotationId"));
         }else{
-            dianzan = dianzanDao.getByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId);
+            dianzan = dianzanDao.getByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId + "and annotationId is null");
         }
         dianzanDao.delete(dianzan.getId());
         return "success";
@@ -263,7 +278,7 @@ public class PassageController {
         if(request.getParameter("annotationId") != null){
             dianzans = dianzanDao.findListByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId+" and annotationId = "+request.getParameter("annotationId"));
         }else{
-            dianzans = dianzanDao.findListByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId);
+            dianzans = dianzanDao.findListByQuery("from Dianzan where userId = "+userId+" and passageId = "+passageId + " and annotationId IS NULL");
         }
         if(dianzans.isEmpty()){
             return "false";
@@ -303,16 +318,30 @@ public class PassageController {
                 obj.put("releaseTime",format.format(passage.getReleaseTime()));
                 obj.put("photo",passage.getPhoto());
                 obj.put("likecount",rank.getNum());
+                obj.put("type","passage");
             }else if(rank.getType() == 1){
                 Annotation annotation = annotationDao.findById(rank.getPa_id());
+                Passage passage = passageDao.findById(annotation.getPassageId());
+                User user = userDao.findById(annotation.getUserId());
                 obj.put("id",annotation.getId());
                 obj.put("selected",annotation.getSelected());
                 obj.put("content",annotation.getContent());
                 obj.put("passageId",annotation.getPassageId());
+                obj.put("title",passage.getTitle());
+                obj.put("auth",user.getAccount());
+                obj.put("style",annotation.getType());
                 obj.put("likecount",rank.getNum());
+                obj.put("type","annotation");
             }
             array.add(obj);
         }
         return array.toString();
+    }
+
+    @RequestMapping(value="getMyPassage",produces = "text/json;charset=utf-8")
+    @ResponseBody
+    public String getMyPassage(int userId){
+        List<Passage> passages = passageDao.findListByQuery("from Passage where releaseId="+userId+" and type IS NULL and groupId IS NULL");
+        return transPassages(passages);
     }
 }
