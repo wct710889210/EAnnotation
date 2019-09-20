@@ -44,11 +44,11 @@
     <bean id="myDatabase" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
         <!--<property name="jdbcUrl" value="jdbc:mysql://47.52.230.212/iannotation?useSSL=false&amp;serverTimezone=Asia/Shanghai"/>-->
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/iannotation?useSSL=false&amp;serverTimezone=Asia/Shanghai"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/iannotation?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=UTF-8"/>
         <property name="user" value="root"/>
         <!--<property name="password" value="Btcd796375#777"/>-->
         <!--<property name="password" value="wct123456"/>-->
-        <property name="password" value="Nightcat_123"/>
+        <property name="password" value="wct123456"/>
         <property name="maxPoolSize" value="100"/>
         <property name="minPoolSize" value="20"/>
         <property name="initialPoolSize" value="20"/>
@@ -66,6 +66,8 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <prop key="format_sql">true</prop>
+                <prop key="use_sql_comments">true</prop>
             </props>
         </property>
     </bean>

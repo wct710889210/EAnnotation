@@ -6,6 +6,7 @@ import com.nightcats.dao.UserDao;
 import com.nightcats.data.Annotation;
 import com.nightcats.data.Passage;
 import com.nightcats.data.User;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class UserController {
     @Autowired
     private UserDao userDao;
@@ -44,16 +45,17 @@ public class UserController {
             return "-1";
         }else{
             if(search.getPassword().equals(password)){
-                    session.setAttribute("account",account);
-                    search.setPassword(null);
-                    JSONObject obj = JSONObject.fromObject(search);
-                    //登录成功
-                    if(callback != null){
-                        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(obj);
-                        mappingJacksonValue.setJsonpFunction(callback);
-                        return mappingJacksonValue;
-                    }
-                    return obj;
+                session.setAttribute("account",account);
+                log.debug("当前登录账号："+account);
+                search.setPassword(null);
+                JSONObject obj = JSONObject.fromObject(search);
+                //登录成功
+                if(callback != null){
+                    MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(obj);
+                    mappingJacksonValue.setJsonpFunction(callback);
+                    return mappingJacksonValue;
+                }
+                return obj;
             }else {
                 //密码错误
                 if(callback != null){
@@ -94,6 +96,7 @@ public class UserController {
     public Object getCurrentUser(HttpSession session,@RequestParam(value="callback",required = false)String callback){
         if(session.getAttribute("account") != null){
             String account = (String)session.getAttribute("account");
+            log.debug("当前登录账号："+account);
             User user = userDao.findUserByAccount(account);
             user.setPassword(null);
             JSONObject json = JSONObject.fromObject(user);

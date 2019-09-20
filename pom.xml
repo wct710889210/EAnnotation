@@ -126,6 +126,26 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.7.4</version>
         </dependency>
+
+<!--        日志依赖-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
   <build>
       <finalName>EAnnotation-web</finalName>
@@ -145,5 +165,12 @@
               <filtering>true</filtering>
           </resource>
       </resources>
+      <plugins>
+          <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+              <version>9.3.12.v20160915</version>
+          </plugin>
+      </plugins>
   </build>
 </project>

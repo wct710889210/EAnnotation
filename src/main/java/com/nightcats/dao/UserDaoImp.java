@@ -14,7 +14,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User findUserByAccount(String account) {
-        return (User) sessionFactory.getCurrentSession().createQuery("from User where account=?").setParameter(0,account).uniqueResult();
+        return (User) sessionFactory.getCurrentSession().createQuery("from User where account=:account").setParameter("account",account).uniqueResult();
     }
 
     @Override
