@@ -14,7 +14,7 @@
         <spring.version>4.3.15.RELEASE</spring.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <junit.version>3.8.1</junit.version>
-        <mysql.version>6.0.6</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
     </properties>
     <dependencies>
         <dependency>
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
+            <version>8.0.16</version>
         </dependency>
         <dependency>
             <groupId>aspectj</groupId>
